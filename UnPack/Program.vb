@@ -10,7 +10,7 @@ Module Program
     Private des As String
     Private source As String
     Private buffer As Byte()
-
+    Private subfiles As New List(Of FileData)()
 
     Sub Main(args As String())
 
@@ -22,11 +22,11 @@ Module Program
 
         If File.Exists(source) Then
 
+            des = Path.GetDirectoryName(source) & "\" & Path.GetFileNameWithoutExtension(source) & "\"
             br = New BinaryReader(File.OpenRead(source))
 
             br.BaseStream.Position = 8
 
-            Dim subfiles As New List(Of FileData)()
             subfiles.Add(New FileData)
             For i As Int32 = 0 To subfiles(0).size - 2
                 subfiles.Add(New FileData)
@@ -35,7 +35,6 @@ Module Program
             Dim unknow As Int32 = br.ReadInt32
             Dim dataoffs As Int64 = br.BaseStream.Position
 
-            des = Path.GetDirectoryName(source & "\" & Path.GetFileNameWithoutExtension(source) & "\")
 
             For Each fd As FileData In subfiles
 
